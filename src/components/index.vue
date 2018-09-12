@@ -1,21 +1,22 @@
 <template>
-  <div>
+  <div class="app-body">
     <search-bar></search-bar>
-    <search-page></search-page>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
   import searchBar from './views/SearchBar'
-  import searchPage from './views/SearchPage'
   export default {
     components: {
-      searchBar,
-      searchPage
+      searchBar
     }
   }
 </script>
 
-<style>
+<style lang="less" scoped>
+  .app-body{
+    width: 100%;
+    height: 100%;
+  }
 </style>

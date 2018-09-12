@@ -30,6 +30,7 @@
                 <li
                     class="search-word"
                     v-for="(keyword, index) in getSearchkeywords"
+                    v-if="index <= historyLen"
                 >
                     {{ keyword }}
                     <span 
@@ -81,24 +82,26 @@ export default {
     name: 'search-page',
     data() {
         return {
-            showDelete: false,
-            showAllCommend: true,
-            isShowAllHistroy: false,
-            isSearchHistroySingle: false,
-            isSearchCommendSingle: false,
-            searchKeywords: [
+            historyLen: 3,
+
+            showDelete: false,              // 显示删除按钮
+            showAllCommend: true,           // 显示所有推荐
+            isShowAllHistroy: false,        // 是否显所有示历史记录
+            isSearchHistroySingle: false,   // 搜索推荐数据个数是否为单数
+            isSearchCommendSingle: false,   // 搜索推荐数据个数是否为单数
+            searchKeywords: [ // 头部关键词
                 '比亚迪新能源',
                 '中国通史第三集',
                 '巨齿鲨电源'
             ],
-            searchHistroy: [
+            searchHistroy: [  // 搜索历史
                 '三星',
                 '华为',
                 '小米',
                 '苹果',
-                '魅族'
+                '魅族',
             ],
-            searchCommend: [
+            searchCommend: [  // 搜索推荐关键词
                 '现代简约背景墙',
                 '周星驰',
                 '四大天王',
@@ -107,20 +110,8 @@ export default {
         }
     },
     computed: {
-        historyWord: {
-            get: function() {
-                return this.doDouble(this.searchHistroy, this.isSearchHistroySingle, this.isShowAllHistroy);
-            },
-            set: function() {
-                this.searchHistroy = this.filter((item) => {
-                    return !itme;
-                })
-                this.doDouble(this.searchHistroy, this.isSearchHistroySingle, this.isShowAllHistroy);
-            }
-        },
-
         getSearchkeywords() {
-            
+            return this.doDouble(this.searchHistroy, this.isSearchHistroySingle);
         },
 
         getCommendWords() {
@@ -142,30 +133,25 @@ export default {
                 singFlag = true;
                 arr.push('');
             } 
-
-            if (isShow) {
-                return arr; 
-            } else {
-                if (arr.length >= 4) {
-                    return arr.slice(0,4);
-                }
-                return arr;
-            }
+            return arr;
         },
-
+        // 切换是否显示所有历史记录 
         toggleShowAllHistroy() {
             this.isShowAllHistroy = !this.isShowAllHistroy;
+            this.historyLen  = this.isShowAllHistroy ? this.searchHistroy.length - 1 : 3;
         },
-
+        // 删除历史记录
         deleteHistoryWord(index) {
             this.searchHistroy.splice(index, 1);
-            this.doDouble(this.searchHistroy, this.isSearchHistroySingle, this.isShowAllHistroy);
+            this.searchHistroy = this.searchHistroy.filter((item) => {
+                return item !== '';
+            })
         },
-
+        // 显示删除历史记录按钮
         showDeleteBtn() {
             this.showDelete = !this.showDelete;
         },
-
+        // 显示所有推荐搜索关键词
         toggleCommend() {
             this.showAllCommend = !this.showAllCommend;
         }

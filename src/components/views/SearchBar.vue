@@ -31,10 +31,12 @@ export default {
     methods: {
         onSearchInputTriggle() {
             this.isSearch = true;
+            this.$router.push('/search');
         },
 
         closeSearch() {
             this.isSearch = false;
+            this.$router.go('-1');
         }
     }
 }
@@ -42,6 +44,7 @@ export default {
 
 <style lang="less" scoped>
     .top-search-bar{
+        width: 100%;
         height: 1.2rem;
         padding: 6px 8px;
         box-sizing: border-box;
@@ -50,6 +53,9 @@ export default {
         align-items: center;
         background-color: #d43d3d;
         color: #ffffff;
+        position: fixed;
+        top: 0;
+        left: 0;
         .search-input-wrapper{
             flex: 1;
             height: 100%;
