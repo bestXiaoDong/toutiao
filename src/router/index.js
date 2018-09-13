@@ -12,7 +12,7 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
-      redirect: '/content',
+      redirect: '/content/__all__',
       children: [
         {
           path: 'search',

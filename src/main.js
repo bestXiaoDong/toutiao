@@ -4,9 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueCarousel from 'vue-carousel'
+import vueResource from 'vue-resource';
 
 require('./assets/js/flexible.js');
 Vue.use(VueCarousel);
+Vue.use(vueResource);
 
 Vue.config.productionTip = false
 
