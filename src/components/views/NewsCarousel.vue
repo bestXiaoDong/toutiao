@@ -108,12 +108,10 @@ export default {
         },
 
         getNews() {
-            this.$http.get('api/list', Object.assign({
-                tag: '__all__'
-            }, newsData))
-                .then((data) => {
-                    console.log(data)
-                })
+            this.$axios.get('/douban/movie/top250?start=0&count=10', {
+                start:0,
+                count:10
+            })
         }
     },
     watch: {

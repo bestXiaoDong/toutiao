@@ -3,12 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import VueCarousel from 'vue-carousel'
 import vueResource from 'vue-resource';
+import axios from 'axios';
 
 require('./assets/js/flexible.js');
-Vue.use(VueCarousel);
 Vue.use(vueResource);
+Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false
 
