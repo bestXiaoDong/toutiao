@@ -12,18 +12,21 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/api/**': {
-      //   target: 'https://m.toutiao.com/',//设置你调用的接口域名和端口号 别忘了加http
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/api': ''//这里理解成用‘/api’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'http://40.00.100.100:3002/user/add'，直接写‘/api/user/add’即可
-      //   }
-      // },
+      '/api': {
+        target: 'https://m.toutiao.com/list/',//设置你调用的接口域名和端口号 别忘了加http
+        bypass: function(req, res, proxyOptions) {
+          req.headers.referer = 'https://m.toutiao.com/?W2atIF=1',
+          req.headers.host = 'm.toutiao.com'
+        },
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''//这里理解成用‘/api’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'http://40.00.100.100:3002/user/add'，直接写‘/api/user/add’即可
+        }
+      },
       '/douban': {
         target: 'https://api.douban.com/v2/',
         changeOrigin: true,
-        secure: false,
-        pathReWrite: {
+        pathRewrite: {
           '^/douban': ''
         }
       }

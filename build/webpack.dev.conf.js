@@ -10,6 +10,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
+// 后端代理 绕过host及referer start
+// const express = require('express');
+// const axios = require('axios');
+// const app = express();
+// const apiRoutes = express.Router();
+// app.use('/api', apiRoutes);
+// 后端代理 绕过host及referer end
+
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
@@ -22,6 +30,23 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
   // these devServer options should be customized in /config/index.js
   devServer: {
+    // before(apiRoutes) {
+    //   apiRoutes.get('/api/getNews', (req, res) => {
+    //     const url = 'https://m.toutiao.com/list/'
+    //     axios.get(url, {
+    //       headers: {
+    //         referer: 'https://m.toutiao.com/?W2atIF=1',
+    //         host: 'm.toutiao.com'
+    //       },
+    //       params: req.query
+    //     }).then((response) => {
+    //       console.log(22222);
+    //       res(response)
+    //     }).catch((e) => {
+    //       console.log(e)
+    //     })
+    //   })
+    // },
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "express": "^4.16.3",
     "flexible": "^0.1.20",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",

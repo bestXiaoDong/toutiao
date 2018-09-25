@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { newsData } from '../../assets/js/api.js';
+import { newsData, getNews } from '../../assets/js/api.js';
 export default {
     name: 'newsCarousel',
     props: {
@@ -33,6 +33,7 @@ export default {
             currentMenuIndex: 0,
             isInTrasition: false, 
             isOuter: false, // 是否超出边界
+            news: {},
             pos: {
                 x: 0,
                 y: 0,
@@ -41,6 +42,11 @@ export default {
                 oldDis: 0
             }
         }
+    },
+    created() {
+        this.menus.forEach((item) => {
+            this.news[item.id] = [];
+        })
     },
     methods: {
         onTouchStart(ev) {
@@ -87,11 +93,12 @@ export default {
             this.$refs.newsCarousel.style.transform = `translateX(${this.pos.dis + this.pos.oldDis}px)`;
             this.pos.oldDis = this.pos.dis + this.pos.oldDis;
             if (this.pos.dir === 'left') {
-                this.currentIndex--;
+                this.currentMenuIndex++;
             } else {
-                this.currentIndex++;
+                this.currentMenuIndex--;
             }
-            this.currentMenu = this.menus[this.currentIndex];
+            this.currentMenu = this.menus[this.currentMenuIndex];
+            this.$router.push({path: `/content/${this.currentMenu.id}`});
         },
 
         selectMenu(index) {
@@ -104,13 +111,17 @@ export default {
             this.$refs.newsCarousel.style.transform = `translateX(${-index * docWidth}px)`;
             this.pos.dis = 0;
             this.pos.oldDis = -index * docWidth;
-            this.getNews();
+            this.getNewsfortt(this.menus[index].id);
         },
 
-        getNews() {
-            this.$axios.get('/douban/movie/top250?start=0&count=10', {
-                start:0,
-                count:10
+        getNewsfortt(tag) {
+            this.$axios.get('/api', {
+                params: Object.assign({}, newsData, {
+                    tag
+                })
+            }).then((res) => {
+                this.news[tag] = res.data.data.concat(this.news[tag]);
+                console.log(this.news);
             })
         }
     },
